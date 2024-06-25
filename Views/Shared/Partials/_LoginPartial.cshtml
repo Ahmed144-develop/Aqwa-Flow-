@@ -1,0 +1,50 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using AquaFlow.Areas.Identity.Data
+
+@inject SignInManager<AquaFlowUser> SignInManager
+@inject UserManager<AquaFlowUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="flex-shrink-0 dropdown">
+        <button type="button" class="d-block ms-auto btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
+            <span class="d-sm-inline d-none">
+                @UserManager.GetUserName(User)
+            </span>
+            <i class="bi bi-person-fill d-sm-none"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+            @if (!string.IsNullOrEmpty(user.FullName))
+            {
+                <li><span class="dropdown-item-text">@user.FullName</span></li>
+                <li><hr class="dropdown-divider"></li>
+            }
+            @if (await UserManager.IsInRoleAsync(user, "Admin"))
+            {
+                <li><a class="dropdown-item" asp-area="Admin" asp-page="/Manage/Orders/Index">Admin Panel</a></li>
+            } else
+            {
+                <li> <a class="dropdown-item" asp-area="" asp-controller="Orders" asp-action="Index">Orders</a></li>
+            }
+            <li><a class="dropdown-item" id="manage" asp-area="Identity" asp-page="/Account/Manage/Index">Profile</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button id="logout" type="submit" class="dropdown-item">Sign Out</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+}
+else
+{
+    <div class="text-end">
+        <a class="btn btn-outline-primary me-2" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        <a class="btn btn-primary" id="register" asp-area="Identity" asp-page="/Account/Register">Sign-up</a>
+    </div>
+}
