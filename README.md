@@ -1,4 +1,5 @@
 Introduction
+
 The Sustainable Water Delivery Web App project aims to create an innovative e-commerce platform for water delivery. This project supports the global mission of ensuring universal access to clean water and sanitation services by introducing sustainable technological solutions. The application provides functionalities for customers to manage their orders and for administrators to efficiently manage products and users, all built on a secure and user-friendly ASP.NET framework integrated with AWS services.
 
 Previous Cloud Architecture Blueprint
